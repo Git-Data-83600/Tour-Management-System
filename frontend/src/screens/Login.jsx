@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { login } from '../services/user'
+import '../App.css';
 
 function Login() {
   const [email, setEmail] = useState('')
@@ -32,61 +33,63 @@ function Login() {
   }
 
   return (
-    <div>
-      <h2 className='page-header'>Login</h2>
-      <div className='row'>
-        <div className='col'></div>
-        <div className='col'>
-          <div className='form'>
-            <div className='mb-3'>
-              <label htmlFor=''>Email</label>
-              <input
-                onChange={(e) => {
-                  if (e.target.value.length == 0) {
-                    setEmailEmpty(true)
-                  } else {
-                    setEmailEmpty(false)
-                  }
-                  setEmail(e.target.value)
-                }}
-                type='email'
-                className='form-control'
-              />
-              {isEmailEmpty && (
-                <p style={{ color: 'red' }}>Email is mandatory</p>
-              )}
-            </div>
-            <div className='mb-3'>
-              <label htmlFor=''>Password</label>
-              <input
-                onChange={(e) => {
-                  if (e.target.value.length == 0) {
-                    setPasswordEmpty(true)
-                  } else {
-                    setPasswordEmpty(false)
-                  }
-                  setPassword(e.target.value)
-                }}
-                type='password'
-                className='form-control'
-              />
-              {isPasswordEmpty && (
-                <p style={{ color: 'red' }}>Password is mandatory</p>
-              )}
-            </div>
-            <div className='mb-3'>
-              <div>
-                Don't have account ? <Link to='/register'>Register here</Link>
-              </div>
-              <button onClick={onLogin} className='btn btn-success mt-2'>
-                Login
-              </button>
-            </div>
-          </div>
+    <div className="background-image d-flex align-items-center justify-content-center" style={{ minHeight: '100vh' }}>
+    <div className="col-12 col-md-6 col-lg-5 p-4 bg-white rounded shadow">
+      <h2 className='text-center mb-3' >Login</h2>
+      <div className="form">
+        <div className="mb-3">
+          <label htmlFor="email">Email</label>
+          <input
+            id="email"
+            onChange={(e) => {
+              if (e.target.value.length === 0) {
+                setEmailEmpty(true)
+              } else {
+                setEmailEmpty(false)
+              }
+              setEmail(e.target.value)
+            }}
+            type="email"
+            className="form-control"
+            value={email}
+          />
+          {isEmailEmpty && (
+            <p style={{ color: 'red' }}>Email is mandatory</p>
+          )}
         </div>
-        <div className='col'></div>
+
+        <div className="mb-3">
+          <label htmlFor="password">Password</label>
+          <input
+            id="password"
+            onChange={(e) => {
+              if (e.target.value.length === 0) {
+                setPasswordEmpty(true)
+              } else {
+                setPasswordEmpty(false)
+              }
+              setPassword(e.target.value)
+            }}
+            type="password"
+            className="form-control"
+            value={password}
+          />
+          {isPasswordEmpty && (
+            <p style={{ color: 'red' }}>Password is mandatory</p>
+          )}
+        </div>
+
+        <div className="d-flex justify-content-between align-items-center">
+          <div>
+            Don't have an account? <Link to="/register">Register here</Link>
+          </div>
+          <button onClick={onLogin} className="btn btn-success">
+            Login
+          </button>
+        </div>
       </div>
     </div>
+  </div>
   )
 }
 

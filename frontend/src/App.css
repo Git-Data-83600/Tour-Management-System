@@ -36,3 +36,85 @@
     transform: rotate(360deg);
   }
 }
+
+
+.background-image {
+  background-image: url('/public/images/envio-13.jpg'); 
+  background-size: cover;
+  background-position: center;
+  height: 100vh; 
+  background-attachment: fixed; 
+}
+
+@media (max-width: 768px) {
+  .background-image {
+    height: 50vh;  
+    background-attachment: scroll; 
+  }
+}
+
+header {
+  background-color: #343a40; 
+  color: white;
+  padding: 20px 0;
+}
+
+header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
+
+header p {
+  font-size: 1.25rem;
+}
+
+
+.card {
+  border-radius: 15px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.card-img-top {
+  border-top-left-radius: 0.25rem;
+  border-top-right-radius: 0.25rem;
+  max-height: 300px;
+}
+
+.card-body {
+  padding: 1.5rem;
+}
+
+.card-title {
+  font-size: 1.75rem;
+  font-weight: bold;
+}
+
+.card-text {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+}
+
+
+button {
+  border-radius: 5px;
+}
+
+
+footer {
+  background-color: #282424;
+  color: white;
+  padding: 15px;
+}
+
+footer p {
+  margin: 0;
+  font-size: 1rem;
+}
+
+
+

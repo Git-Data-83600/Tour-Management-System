@@ -4,6 +4,8 @@ import 'react-toastify/dist/ReactToastify.css'
 
 import Login from "./screens/Login";
 import Register from "./screens/Register";
+import CreateTourPackageForm from "./screens/CreateTourPakage";
+import TourPkgList from "./component/TourPkgList";
 
 function App() {
   return (
@@ -12,6 +14,8 @@ function App() {
         <Route path='' element={<Login/>} />
         <Route path='login' element={<Login />} />
         <Route path='register' element={<Register/>} />
+        <Route path='tour-packages' element={<CreateTourPackageForm/>} />
+        <Route path='tour-packages-all' element={<TourPkgList/>}/>
       </Routes>
       <ToastContainer />
     </div>

@@ -28,7 +28,7 @@ function Register() {
     }else if(!role){
       toast.error('please select role')
     }else {
-      // call post /admin/register api
+     
       const result = await register(name, email, password, role)
       if (result['status'] == true) {
         toast.success('Successfully registered a new user')
@@ -40,11 +40,9 @@ function Register() {
   }
 
   return (
-    <div>
-      <h2 className='page-header'>Register</h2>
-      <div className='row'>
-        <div className='col'></div>
-        <div className='col'>
+    <div className="background-image d-flex align-items-center justify-content-center" style={{ minHeight: '100vh' }}>
+    <div className="col-12 col-md-6 col-lg-5 p-4 bg-white rounded shadow">
+      <h2 className='text-center mb-3'>Register</h2>
           <div className='form'>
             <div className='mb-3'>
               <label htmlFor=''>Name</label>
@@ -92,7 +90,7 @@ function Register() {
                   <option value="ROLE_CUSTOMER">CUSTOMER</option>
                 </select>
               </div>
-            <div className='mb-3'>
+            <div className="d-flex justify-content-between align-items-center">
               <div>
                 Already have an account ? <Link to='/login'>Login here</Link>
               </div>
@@ -102,9 +100,8 @@ function Register() {
             </div>
           </div>
         </div>
-        <div className='col'></div>
       </div>
-    </div>
+    
   )
 }
 
