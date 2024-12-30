@@ -2,7 +2,7 @@ import React from 'react';
 import { config } from '../services/config';
 import '../App.css';
 
-const TourPkgItem = ({ tour }) => {
+const TourPkgItem = ({ tour,onBook }) => {
   const { name, description, price, duration, startDate, endDate, image } = tour;
   const imageUrl = `${config.serverUrl}/tour-packages/image/${image}`;
 
@@ -13,18 +13,18 @@ const TourPkgItem = ({ tour }) => {
         alt={name}
         className="card-img-top"
         style={{
-          height: '300px',
+          height: '200px',
           objectFit: 'cover',
           borderTopLeftRadius: '0.25rem',
           borderTopRightRadius: '0.25rem',
         }}
-        onError={(e) => e.target.src = '/path/to/default-image.jpg'}
+        
       />
       <div className="card-body">
         <h5 className="card-title">{name}</h5>
         <p className="card-text">{description}</p>
         <div className="d-flex justify-content-between">
-          <span><strong>Price:</strong> ${price}</span>
+          <span><strong>Price:</strong> Rs {price}</span>
           <span><strong>Duration:</strong> {duration} days</span>
         </div>
         <div className="d-flex justify-content-between mt-2">
@@ -33,7 +33,7 @@ const TourPkgItem = ({ tour }) => {
         </div>
 
         <div className="mt-3 text-center">
-          <button className="btn btn-dark w-100">
+          <button className="btn btn-dark w-100"onClick={onBook}>
             Book Now
           </button>
         </div>

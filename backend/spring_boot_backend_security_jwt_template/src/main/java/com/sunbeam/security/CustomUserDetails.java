@@ -3,17 +3,20 @@ package com.sunbeam.security;
 import java.util.Collection;
 import java.util.List;
 
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+
 import com.sunbeam.entities.User;
+
+
 
 public class CustomUserDetails implements UserDetails {
 	private User user;
 
 	public CustomUserDetails(User user) {
-		super();
 		this.user = user;
 	}
 
@@ -59,6 +62,10 @@ public class CustomUserDetails implements UserDetails {
 	public boolean isEnabled() {
 		// TODO Auto-generated method stub
 		return true;
+	}
+	
+	public User getUser() {
+		return this.user;
 	}
 
 }

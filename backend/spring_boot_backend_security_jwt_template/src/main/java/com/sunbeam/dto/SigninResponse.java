@@ -1,5 +1,6 @@
 package com.sunbeam.dto;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,6 +15,6 @@ public class SigninResponse {
 	
 		private String jwt;
 		private String mesg;
-	
+		private UserDataDTO user;
 
 }

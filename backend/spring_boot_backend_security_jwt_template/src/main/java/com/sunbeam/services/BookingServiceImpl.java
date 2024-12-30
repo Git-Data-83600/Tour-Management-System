@@ -19,6 +19,7 @@ import com.sunbeam.entities.User;
 
 import org.modelmapper.ModelMapper;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -47,6 +48,7 @@ public class BookingServiceImpl implements BookingService {
         Booking booking = modelMapper.map(bookingDTO, Booking.class);
         booking.setTourPackage(tourPkg);
         booking.setStatus(BookingStatus.CONFIRMED);
+        booking.setBookingDate(LocalDate.now());
         customer.addBooking(booking);
         booking = bookingDao.save(booking);
         return new ApiResponse("Booking created successfully");
