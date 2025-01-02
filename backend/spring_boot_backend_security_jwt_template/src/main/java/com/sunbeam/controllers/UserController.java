@@ -3,18 +3,17 @@ package com.sunbeam.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import com.sunbeam.dto.AuthRequest;
 import com.sunbeam.dto.SigninResponse;
+import com.sunbeam.dto.UserDataDTO;
 import com.sunbeam.dto.UserReqDTO;
 import com.sunbeam.entities.User;
-import com.sunbeam.security.CustomUserDetailsService;
+import com.sunbeam.security.CustomUserDetails;
 import com.sunbeam.security.JwtUtils;
 import com.sunbeam.services.UserService;
 
@@ -66,12 +65,17 @@ public class UserController {
 						request.getPassword());
 		//invoke auth mgr's authenticate method;
 		Authentication verifiedToken = authMgr.authenticate(token);
+		 CustomUserDetails userPrincipal = (CustomUserDetails) verifiedToken.getPrincipal();
+		    User user = userPrincipal.getUser(); // Get User from CustomUserDetails
+
+		    // Create UserDTO from User entity (excluding sensitive data)
+		    UserDataDTO userDTO = new UserDataDTO(user.getId(), user.getName(), user.getEmail(), user.getRole());
 		//=> auth successful !
 		System.out.println(verifiedToken.getPrincipal().getClass());//custom user details object
 		//create JWT n send it to the clnt in response
 		SigninResponse resp=new SigninResponse
 				(jwtUtils.generateJwtToken(verifiedToken),
-				"Successful Authentication..!");
+				"Successful Authentication..!",userDTO);
 		return ResponseEntity. 	
 				status(HttpStatus.CREATED).body(resp);
 		

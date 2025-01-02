@@ -15,7 +15,7 @@ public interface TourPackageService {
 	//ApiResponse saveTourPackage(TourPackageDTO tourPackageDTO);
 	ApiResponse saveTourPackage(Long id,TourPackage tourPkg,String path, MultipartFile file) throws IOException;
 	List<TourPackageRespDTO> getAllTourPackages();
-	TourPackageRespDTO getTourPackageById(Long id);
+	List<TourPackageRespDTO> getTourPackagesByGuideId(Long guideId);
 	ApiResponse deleteTourPackage(Long id);
 //	ApiResponse updateTourPackage(Long id, TourPackageDTO tourPackageDTO, MultipartFile imageFile) throws IOException;
 //	ApiResponse uploadImage(Long id,String path, MultipartFile image) throws IOException;

@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 
 import com.sunbeam.custom_exceptions.ResourceNotFoundException;
+import com.sunbeam.daos.BookingDao;
 import com.sunbeam.daos.TourPackageDao;
 import com.sunbeam.daos.UserDao;
 import com.sunbeam.dto.ApiResponse;
@@ -38,6 +39,9 @@ public class TourPackageServiceImpl implements TourPackageService {
     
     @Autowired
     private UserDao userDao;
+    
+    @Autowired
+    private BookingDao bookingDao;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -87,9 +91,14 @@ public class TourPackageServiceImpl implements TourPackageService {
     	return tourPakgs; 
     }
 
-    public TourPackageRespDTO getTourPackageById(Long id) {
-        TourPackage tourPackage = tourPackageDao.findById(id).orElseThrow(() -> new ResourceNotFoundException("Tour Package not found"));
-        return modelMapper.map(tourPackage, TourPackageRespDTO.class);
+    public List<TourPackageRespDTO> getTourPackagesByGuideId(Long guideId) {
+        List<TourPackage> tourPackages = tourPackageDao.findByGuideId(guideId);
+        if (tourPackages.isEmpty()) {
+            throw new ResourceNotFoundException("No tour packages found for the guide");
+        }
+        return tourPackages.stream()
+                           .map(tourPackage -> modelMapper.map(tourPackage, TourPackageRespDTO.class))
+                           .collect(Collectors.toList());
     }
 
     public ApiResponse deleteTourPackage(Long id) {
@@ -99,6 +108,11 @@ public class TourPackageServiceImpl implements TourPackageService {
         	User guid = userDao.findById(tourPkg.getGuide().getId())
         	.orElseThrow(() -> new ResourceNotFoundException("Invalid user id !!!!"));
         	guid.removeTourPackage(tourPkg);
+        	
+        	 if(!tourPkg.getGuide().getBookings().isEmpty()) {
+        		 bookingDao.deleteAll(tourPkg.getGuide().getBookings());
+        	 }
+        	tourPackageDao.deleteById(id);
         	return new ApiResponse("Tour Package deleted successfully");
         }
         return new ApiResponse("Tour Package deleted failed");

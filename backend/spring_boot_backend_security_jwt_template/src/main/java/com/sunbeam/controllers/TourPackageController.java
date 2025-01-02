@@ -46,9 +46,9 @@ public class TourPackageController {
         return ResponseEntity.ok(tourPackageService.getAllTourPackages());
     }
 
-    @GetMapping("/{tourPkgId}")
-    public ResponseEntity<?> getTourPackageById(@PathVariable Long tourPkgId) {
-        return ResponseEntity.ok(tourPackageService.getTourPackageById(tourPkgId));
+    @GetMapping("/{guideId}")
+    public ResponseEntity<?> getTourPackageByGuideId(@PathVariable Long guideId) {
+        return ResponseEntity.ok(tourPackageService.getTourPackagesByGuideId(guideId));
     }
 
 //    @PutMapping("/{tourPkgId}")

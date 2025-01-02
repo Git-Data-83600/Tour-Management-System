@@ -15,7 +15,6 @@ const TourPkgList = () => {
   useEffect(() => {
     const fetchTourPackages = async () => {
       try {
-        
         const response = await axios.get(`${config.serverUrl}/tour-packages`);
         setTourPackages(response.data);
       } catch (error) {
@@ -25,17 +24,17 @@ const TourPkgList = () => {
       }
     };
 
-    const loggedUser = sessionStorage['user'];
-    if(loggedUser){
+   
+    const loggedUser = sessionStorage.getItem('user');
+    if (loggedUser) {
       try {
         setUser(JSON.parse(loggedUser));
       } catch (error) {
-        setUser(null); 
+        setUser(null);
       }
-    }else{
+    } else {
       setUser(null);
     }
-    
 
     fetchTourPackages();
   }, []);
@@ -51,29 +50,39 @@ const TourPkgList = () => {
     } else if (user.role !== 'ROLE_CUSTOMER') {
       toast.error('Only customers can book a tour!');
     } else {
-      
       try {
-        const response = await axios.post(`${config.serverUrl}/bookings`, 
+        const response = await axios.post(
+          `${config.serverUrl}/bookings`,
           { tourPackageId: tourId, customerId: user.id },
           {
-            headers: { Authorization: `Bearer ${sessionStorage.getItem('token')}` }
+            headers: { Authorization: `Bearer ${sessionStorage.getItem('token')}` },
           }
         );
         console.log(response);
         toast.success(response.data.message);
       } catch (error) {
         console.error('Error booking tour:');
-  
       }
     }
   };
 
+  const handleLogout = () => {
+    sessionStorage.removeItem('user');
+    sessionStorage.removeItem('token');
+    setUser(null);
+    toast.success('Logged out successfully');
+    navigate('/'); 
+  };
+
+  const handleLogin = () => {
+    navigate('/login');
+  };
+
   return (
     <div className="tour-package-container">
-      
       <header
         style={{
-          backgroundColor: '#6c757d', 
+          backgroundColor: '#6c757d',
           color: 'white',
           padding: '30px 0',
           textAlign: 'center',
@@ -87,18 +96,48 @@ const TourPkgList = () => {
         </p>
       </header>
 
-      
       <div className="container mt-4">
-        <div className="row">
-          {tourPackages.map((tour) => (
-            <div className="col-md-4" key={tour.id}>
-              <TourPkgItem tour={tour} onBook={() => handleBooking(tour.id)}/>
+
+        {!user ? (
+          <div className="text-end mb-3">
+            <button className="btn btn-primary" onClick={handleLogin}>
+              Login
+            </button>
+          </div>
+        ) : (
+          
+          <div className="text-end mb-3">
+            
+            <div
+              className="d-flex align-items-center"
+              style={{
+                backgroundColor: '#87CEEB',
+                padding: '8px 15px',
+                borderRadius: '25px',
+                color: 'white',
+                fontWeight: 'bold',
+                fontSize: '1.1rem',
+              }}
+            >
+              <span className="me-3">Hello, {user.name}!</span>
+              <button className="btn btn-danger btn-sm" onClick={handleLogout}>
+                Logout
+              </button>
             </div>
-          ))}
+          </div>
+        )}
+
+        <div className="container mt-4">
+          <div className="row">
+            {tourPackages.map((tour) => (
+              <div className="col-md-4" key={tour.id}>
+                <TourPkgItem tour={tour} onBook={() => handleBooking(tour.id)} />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 
-     
       <footer className="bg-secondary text-white text-center p-3 mt-5">
         <p>© 2024 ExploreTours. All rights reserved.</p>
       </footer>

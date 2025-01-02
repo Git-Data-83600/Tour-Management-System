@@ -4,7 +4,6 @@ import { config } from '../services/config';
 import { toast } from 'react-toastify';
 
 function CreateTourPackageForm() {
-  const [guidId, setGuidId] = useState('');
   const [tourPkgName, setTourPkgName] = useState('');
   const [tourPkgDescription, setTourPkgDescription] = useState('');
   const [tourPkgPrice, setTourPkgPrice] = useState('');
@@ -14,7 +13,7 @@ function CreateTourPackageForm() {
   const [file, setFile] = useState(null);
   const [responseMessage, setResponseMessage] = useState('');
 
-  const handleGuidIdChange = (e) => setGuidId(e.target.value);
+  
   const handleTourPkgNameChange = (e) => setTourPkgName(e.target.value);
   const handleTourPkgDescriptionChange = (e) => setTourPkgDescription(e.target.value);
   const handleTourPkgPriceChange = (e) => setTourPkgPrice(e.target.value);
@@ -26,12 +25,12 @@ function CreateTourPackageForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!guidId || !tourPkgName || !tourPkgDescription || !tourPkgPrice || !tourPkgDuration || !tourPkgStartDate || !tourPkgEndDate || !file) {
+    if (!tourPkgName || !tourPkgDescription || !tourPkgPrice || !tourPkgDuration || !tourPkgStartDate || !tourPkgEndDate || !file) {
       setResponseMessage('Please fill in all fields and select an image.');
       return;
     }
 
-    // Create the tour package data object
+    
     const tourPkgData = {
       name: tourPkgName,
       description: tourPkgDescription,
@@ -47,6 +46,9 @@ function CreateTourPackageForm() {
 
     try {
       const token = sessionStorage['token'];
+      const user = JSON.parse(sessionStorage['user']);
+     
+      const guidId = user.id;
       const response = await axios.post(`${config.serverUrl}/tour-packages/${guidId}`, formData, {
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -66,18 +68,6 @@ function CreateTourPackageForm() {
         <div className="col-md-8">
           <div className="card p-4 shadow-sm">
             <form onSubmit={handleSubmit}>
-              <div className="mb-3">
-                <label htmlFor="guidId" className="form-label">Tour Guide ID</label>
-                <input
-                  type="text"
-                  id="guidId"
-                  className="form-control"
-                  value={guidId}
-                  onChange={handleGuidIdChange}
-                  required
-                />
-              </div>
-
               <div className="mb-3">
                 <label htmlFor="tourPkgName" className="form-label">Tour Package Name</label>
                 <input

@@ -50,7 +50,7 @@ public class SecurityConfig {
 		.antMatchers(HttpMethod.OPTIONS).permitAll()
 		.antMatchers("/bookings/**").hasRole("CUSTOMER")
 		.antMatchers("/tour-packages/**").hasRole("GUID")
-		.antMatchers("/users/**").hasRole("ADMIN")
+		.antMatchers("/users/**","/bookings/**").hasRole("ADMIN")
 		.anyRequest().authenticated()
 		.and()
 		//to tell spring sec : not to use HttpSession to store user's auth details

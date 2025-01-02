@@ -10,7 +10,7 @@ function Login() {
   const [isEmailEmpty, setEmailEmpty] = useState(false)
   const [isPasswordEmpty, setPasswordEmpty] = useState(false)
 
-  // get navigation hook
+  
   const navigate = useNavigate()
 
   const onLogin = async () => {
@@ -19,15 +19,25 @@ function Login() {
     } else if (password.length == 0) {
       toast.error('Please enter password')
     } else {
-      // call login API and check its success
+      
       const result = await login(email, password)
     
       if (result['status']==false) {
-        toast.error(result['message'])
+        toast.error(result['message']);
+        navigate('/register');
       } else {
         sessionStorage['token'] = result['jwt']
+        sessionStorage['user'] = JSON.stringify(result['user']);
         toast.success(result['mesg'])
-        // navigate('/home')
+
+        const user = result['user'];
+        if (user.role === 'ROLE_ADMIN') {
+          navigate('/bookings');  
+        } else if (user.role === 'ROLE_GUID') {
+          navigate('/guide-tour-packages');  
+        } else if (user.role === 'ROLE_CUSTOMER') {
+          navigate('/tour-packages-all');  
+        }
       }
     }
   }
