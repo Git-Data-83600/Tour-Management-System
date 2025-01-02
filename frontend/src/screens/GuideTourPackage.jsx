@@ -7,7 +7,6 @@ import { config } from '../services/config';
 const GuideTourPackage = () => {
   const [tourPackages, setTourPackages] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -22,12 +21,11 @@ const GuideTourPackage = () => {
             'Authorization': `Bearer ${token}`
           }
         });
-        console.log(response.data);
+        //console.log(response.data);
         setTourPackages(response.data);
       } catch (error) {
-        setError('Failed to load tour packages.');
-        toast.error('Error fetching tour packages.');
-        console.log(error);
+       // toast.error('Error fetching tour packages.');
+       // console.log(error);
       } finally {
         setLoading(false);
       }
@@ -69,9 +67,7 @@ const GuideTourPackage = () => {
     return <div className="text-center">Loading...</div>;
   }
 
-  if (error) {
-    return <div className="text-center text-danger">{error}</div>;
-  }
+ 
 
   return (
     <div className="tour-package-container">
@@ -98,40 +94,50 @@ const GuideTourPackage = () => {
           </button>
         </div>
 
-        <div className="table-responsive">
-          <table className="table table-bordered">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Price</th>
-                <th>Duration</th>
-                <th>Actions</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {tourPackages.map((tour) => (
-                <tr key={tour.id}>
-                  <td>{tour.id}</td>
-                  <td>{tour.name}</td>
-                  <td>${tour.price}</td>
-                  <td>{tour.duration} days</td>
-                  <td>
-                    <button className="btn btn-warning btn-sm" onClick={() => handleEdit(tour.id)}>
-                      Edit
-                    </button>
-                  </td>
-                  <td>
-                    <button className="btn btn-danger btn-sm ml-2" onClick={() => handleDelete(tour.id)}>
-                      Delete
-                    </button>
-                  </td>
+        
+        {tourPackages.length === 0 ? (
+          <div className="text-center">
+            <p>There are no tour packages available. Please add something!</p>
+            <button className="btn btn-primary" onClick={handleAddTourPackage}>
+              Add Tour Package
+            </button>
+          </div>
+        ) : (
+          <div className="table-responsive">
+            <table className="table table-bordered">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Name</th>
+                  <th>Price</th>
+                  <th>Duration</th>
+                  <th>Actions</th>
+                  <th></th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody>
+                {tourPackages.map((tour) => (
+                  <tr key={tour.id}>
+                    <td>{tour.id}</td>
+                    <td>{tour.name}</td>
+                    <td>${tour.price}</td>
+                    <td>{tour.duration} days</td>
+                    <td>
+                      <button className="btn btn-warning btn-sm" onClick={() => handleEdit(tour.id)}>
+                        Edit
+                      </button>
+                    </td>
+                    <td>
+                      <button className="btn btn-danger btn-sm ml-2" onClick={() => handleDelete(tour.id)}>
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
 
       <footer className="bg-secondary text-white text-center p-3 mt-5">

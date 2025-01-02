@@ -48,9 +48,9 @@ public class SecurityConfig {
 				"/v*/api-doc*/**","/tour-packages/image/**","/tour-packages","/swagger-ui/**").permitAll()
 		// only required for JS clnts (react / angular) : for the pre flight requests
 		.antMatchers(HttpMethod.OPTIONS).permitAll()
-		.antMatchers("/bookings/**").hasRole("CUSTOMER")
+		.antMatchers("/bookings/**").hasAnyRole("CUSTOMER","ADMIN")
 		.antMatchers("/tour-packages/**").hasRole("GUID")
-		.antMatchers("/users/**","/bookings/**").hasRole("ADMIN")
+		.antMatchers("/users/**").hasRole("ADMIN")
 		.anyRequest().authenticated()
 		.and()
 		//to tell spring sec : not to use HttpSession to store user's auth details

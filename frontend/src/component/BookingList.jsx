@@ -72,7 +72,7 @@ const BookingList = () => {
 
   return (
     <div className="container mt-4">
-      <h2>Your Bookings</h2>
+      <h2>Bookings</h2>
 
       <div className="d-flex justify-content-between mb-3">
         <button className="btn btn-success" onClick={handleGetAllUsers}>

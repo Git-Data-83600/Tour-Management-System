@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { config } from '../services/config';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 function CreateTourPackageForm() {
   const [tourPkgName, setTourPkgName] = useState('');
@@ -12,6 +13,8 @@ function CreateTourPackageForm() {
   const [tourPkgEndDate, setTourPkgEndDate] = useState('');
   const [file, setFile] = useState(null);
   const [responseMessage, setResponseMessage] = useState('');
+
+  const navigate = useNavigate();
 
   
   const handleTourPkgNameChange = (e) => setTourPkgName(e.target.value);
@@ -56,6 +59,7 @@ function CreateTourPackageForm() {
         },
       });
       toast.success(response.data.message);
+      navigate('/guide-tour-packages');
     } catch (error) {
       toast.error('Something Went Wrong..!');
     }

@@ -47,8 +47,16 @@ public class User extends BaseEntity{
 	        booking.setCustomer(this);
 	    }
 
-	    public void removeBooking(Booking booking) {
-	        bookings.remove(booking);
-	        booking.setCustomer(null);
+	    public void removeBookings(List<Booking> bookings) {
+	        for (Booking booking : bookings) {
+	            bookings.remove(booking);
+	            booking.setCustomer(null);  
+	        }
 	    }
+	    
+	    public void removeBooking(Booking booking) {
+	            bookings.remove(booking);
+	            booking.setCustomer(null);  
+	    }
+
 }

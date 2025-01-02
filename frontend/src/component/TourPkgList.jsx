@@ -51,17 +51,18 @@ const TourPkgList = () => {
       toast.error('Only customers can book a tour!');
     } else {
       try {
+        const token = sessionStorage['token'];
         const response = await axios.post(
           `${config.serverUrl}/bookings`,
           { tourPackageId: tourId, customerId: user.id },
           {
-            headers: { Authorization: `Bearer ${sessionStorage.getItem('token')}` },
+            headers: { 'Authorization': `Bearer ${token}` },
           }
         );
         console.log(response);
         toast.success(response.data.message);
       } catch (error) {
-        console.error('Error booking tour:');
+        console.error(error,'Error booking tour:');
       }
     }
   };
